@@ -32,7 +32,7 @@ int main(){
       strcat(allFiles,"\n");
 
       struct stat buffer;
-      stat(entry,&buffer);
+      stat(curr,&buffer);
       size += buffer.st_size;
     }
     entry = readdir(stream);
