@@ -32,11 +32,14 @@ int main(){
       strcat(allFiles,"\n");
 
       struct stat buffer;
-      stat(curr,&buffer);
+      char *file = entry->d_name;
+      stat(file,&buffer);
       size += buffer.st_size;
     }
     entry = readdir(stream);
   }
+
+  printf("The size is %d\n\n", size);
   printf("All Directories:\n%s", allDir);
   printf("\n");
   printf("All Regular Files:\n%s", allFiles);
