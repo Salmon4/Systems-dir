@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <string.h>
+#include <sys/stat.h>
 
 int main(){
   DIR * stream = opendir(".");
@@ -29,7 +30,10 @@ int main(){
       strcat(allFiles,"\t");
       strcat(allFiles,curr);
       strcat(allFiles,"\n");
-      //size goes here
+
+      struct stat buffer;
+      stat(entry,&buffer);
+      size += buffer.st_size;
     }
     entry = readdir(stream);
   }
