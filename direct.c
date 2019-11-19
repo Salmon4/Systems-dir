@@ -33,7 +33,7 @@ int main(int argc, char *argv[]){
   char * path = malloc(100);
   if (argc <= 1){
     printf("Directory: ");
-    fgets(path, 50, stdin);
+    fgets(path, 100, stdin);
     path[strlen(path)-1] = 0;
   }
   else {
