@@ -29,19 +29,34 @@ int findDirSize(char *path){
   return size;
 }
 
-int main(){
-  DIR * stream = opendir(".");
+int main(int argc, char *argv[]){
+  char * path = malloc(100);
+  if (argc <= 1){
+    printf("Directory: ");
+    fgets(path, 50, stdin);
+    path[strlen(path)-1] = 0;
+  }
+  else {
+    path = argv[1];
+  }
+
+  DIR * stream = opendir(path);
+
+  if (!stream){
+    printf("%s", strerror(errno));
+    return 1;
+  }
 
   if (stream == NULL){
     printf("%s\n", strerror(errno));
   }
 
   int size = 0;
-  char *allDir = malloc(0);
-  char *allFiles = malloc(0);
+  char *allDir = malloc(100);
+  char *allFiles = malloc(100);
   struct dirent *entry = readdir(stream);
   while (entry != NULL){
-    char *curr = malloc(0);
+    char *curr = malloc(100);
     strcat(curr,entry->d_name);
 
     if (entry->d_type == DT_DIR){
@@ -66,6 +81,7 @@ int main(){
       stat(file,&buffer);
       size += buffer.st_size;
     }
+    //free(curr);
     entry = readdir(stream);
   }
 
@@ -96,6 +112,8 @@ int main(){
   printf("\n");
   printf("All Regular Files:\n%s", allFiles);
 
+  free(allDir);
+  free(allFiles);
   closedir(stream);
 
   return 1;
